@@ -37,7 +37,7 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(previewProvider);
   context.subscriptions.push(previewEmitter);
 
-  const workspaceChannel = vscode.window.createOutputChannel('Remove Comments Workspace');
+  const workspaceChannel = vscode.window.createOutputChannel('Remove Comments Pro Workspace');
   context.subscriptions.push(workspaceChannel);
 
   function buildRetainList(docLangId: string): RetainRule[] {
@@ -106,7 +106,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
     const proc = buildProcessor(docLangId, flagMask, matchPrefix, onStringFound);
     if (!proc.isSupported) {
-      vscode.window.showInformationMessage(`Remove Comments: unsupported language (${docLangId})`);
+      vscode.window.showInformationMessage(`Remove Comments Pro: unsupported language (${docLangId})`);
       resetFlags();
       return;
     }
@@ -124,7 +124,7 @@ export function activate(context: vscode.ExtensionContext): void {
     const docLangId = editor.document.languageId;
     const proc = buildProcessor(docLangId, flagMask, matchPrefix);
     if (!proc.isSupported) {
-      vscode.window.showInformationMessage(`Remove Comments: unsupported language (${docLangId})`);
+      vscode.window.showInformationMessage(`Remove Comments Pro: unsupported language (${docLangId})`);
       resetFlags();
       return;
     }
@@ -133,7 +133,7 @@ export function activate(context: vscode.ExtensionContext): void {
     proc.stripComments(editor, fakeEdit);
 
     if (fakeEdit.ranges.length === 0) {
-      vscode.window.showInformationMessage('Remove Comments: no comments found.');
+      vscode.window.showInformationMessage('Remove Comments Pro: no comments found.');
       resetFlags();
       return;
     }
@@ -146,11 +146,11 @@ export function activate(context: vscode.ExtensionContext): void {
     await vscode.commands.executeCommand('vscode.diff',
       editor.document.uri,
       previewUri,
-      `Preview: Remove Comments ← ${basename}`
+      `Preview: Remove Comments Pro ← ${basename}`
     );
 
     const choice = await vscode.window.showInformationMessage(
-      `Remove Comments: ${fakeEdit.ranges.length} comment region(s) found. Apply removal?`,
+      `Remove Comments Pro: ${fakeEdit.ranges.length} comment region(s) found. Apply removal?`,
       'Apply', 'Cancel'
     );
 
@@ -194,7 +194,7 @@ export function activate(context: vscode.ExtensionContext): void {
   async function showPreview(editor: vscode.TextEditor, flagMask: number, title: string): Promise<void> {
     const proc = buildProcessor(editor.document.languageId, flagMask);
     if (!proc.isSupported) {
-      vscode.window.showInformationMessage(`Remove Comments: unsupported language (${editor.document.languageId})`);
+      vscode.window.showInformationMessage(`Remove Comments Pro: unsupported language (${editor.document.languageId})`);
       return;
     }
     const fakeEdit = new PreviewEditBuilder();
@@ -245,7 +245,7 @@ export function activate(context: vscode.ExtensionContext): void {
     const excludePattern = await buildExcludePattern();
     const files = await vscode.workspace.findFiles('**/*', excludePattern);
     if (files.length === 0) {
-      vscode.window.showInformationMessage('Remove Comments: no files found in workspace.');
+      vscode.window.showInformationMessage('Remove Comments Pro: no files found in workspace.');
       return;
     }
 
@@ -255,7 +255,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
     await vscode.window.withProgress({
       location: vscode.ProgressLocation.Notification,
-      title: 'Remove Comments: scanning workspace…',
+      title: 'Remove Comments Pro: scanning workspace…',
       cancellable: true
     }, async (progress, token) => {
       for (let i = 0; i < files.length; i++) {
@@ -278,19 +278,19 @@ export function activate(context: vscode.ExtensionContext): void {
     });
 
     if (totalRegions === 0) {
-      vscode.window.showInformationMessage('Remove Comments: no comments found in workspace.');
+      vscode.window.showInformationMessage('Remove Comments Pro: no comments found in workspace.');
       return;
     }
 
     const choice = await vscode.window.showInformationMessage(
-      `Remove Comments: ${totalRegions} comment region(s) in ${totalFiles} file(s). Apply removal?`,
+      `Remove Comments Pro: ${totalRegions} comment region(s) in ${totalFiles} file(s). Apply removal?`,
       'Apply', 'Cancel'
     );
     if (choice !== 'Apply') { return; }
 
     await vscode.workspace.applyEdit(wsEdit);
     vscode.window.showInformationMessage(
-      `Remove Comments: removed ${totalRegions} region(s) from ${totalFiles} file(s).`
+      `Remove Comments Pro: removed ${totalRegions} region(s) from ${totalFiles} file(s).`
     );
   }
 
@@ -298,19 +298,19 @@ export function activate(context: vscode.ExtensionContext): void {
     const excludePattern = await buildExcludePattern();
     const files = await vscode.workspace.findFiles('**/*', excludePattern);
     if (files.length === 0) {
-      vscode.window.showInformationMessage('Remove Comments: no files found in workspace.');
+      vscode.window.showInformationMessage('Remove Comments Pro: no files found in workspace.');
       return;
     }
 
     workspaceChannel.clear();
-    workspaceChannel.appendLine('Remove Comments — Workspace Preview');
+    workspaceChannel.appendLine('Remove Comments Pro — Workspace Preview');
     workspaceChannel.appendLine('='.repeat(50));
     let totalRegions = 0;
     let totalFiles   = 0;
 
     await vscode.window.withProgress({
       location: vscode.ProgressLocation.Notification,
-      title: 'Remove Comments: previewing workspace…',
+      title: 'Remove Comments Pro: previewing workspace…',
       cancellable: true
     }, async (progress, token) => {
       for (let i = 0; i < files.length; i++) {

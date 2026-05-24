@@ -1,13 +1,13 @@
 {
-  "name": "remove-comments",
-  "displayName": "Remove Comments",
+  "name": "remove-comments-pro",
+  "displayName": "Remove Comments Pro",
   "description": "Remove all comments from your code with preview, retain rules, string capture and support for 60+ languages.",
   "version": "1.0.0",
   "publisher": "nathanzin",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nathannogueira/remove-comments"
+    "url": "https://github.com/nathannogueira/remove-comments-pro"
   },
   "engines": { "vscode": "^1.120.0" },
   "categories": [ "Other" ],
@@ -16,7 +16,7 @@
   "scripts": {
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "package": "vsce package --out ./package/remove-comments.vsix"
+    "package": "vsce package --out ./package/remove-comments-pro.vsix"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
@@ -30,7 +30,7 @@
   "main": "./dist/extension.js",
   "contributes": {
     "configuration": {
-      "title": "Remove Comments",
+      "title": "Remove Comments Pro",
       "properties": {
         "remove-comments.enableC99": {
           "type": "boolean",
@@ -169,7 +169,7 @@
     "submenus": [
       {
         "id": "remove-comments.submenu",
-        "label": "Remove Comments",
+        "label": "Remove Comments Pro",
         "icon": "$(sparkle-filled)"
       }
     ],

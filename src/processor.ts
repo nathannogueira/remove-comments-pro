@@ -392,7 +392,7 @@ export class CommentProcessor {
               closeRE.lastIndex = charIdx;
               const result = closeRE.exec(text);
               if (!result) {
-                vscode.window.showInformationMessage(`Remove Comments: regex literal at Line ${lineNr + 1}, Col ${charIdx} is not closed on this line.`);
+                vscode.window.showInformationMessage(`Remove Comments Pro: regex literal at Line ${lineNr + 1}, Col ${charIdx} is not closed on this line.`);
                 return;
               }
               this.lastNonSpaceChar = ' ';

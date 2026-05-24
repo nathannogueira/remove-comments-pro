@@ -1,8 +1,8 @@
-# ✨ Remove Comments
+# ✨ Remove Comments Pro
 
 > **Remove all comments from your code instantly right from the editor context menu or Command Palette.**
 
-**Remove Comments** strips single-line, multi-line, and block comments from 60+ programming languages while keeping your strings, logic, and file structure completely intact. Features a live diff **preview** before removing anything. Perfect for cleaning up code before sharing, shipping, or reviewing.
+**Remove Comments Pro** strips single-line, multi-line, and block comments from 60+ programming languages while keeping your strings, logic, and file structure completely intact. Features a live diff **preview** before removing anything. Perfect for cleaning up code before sharing, shipping, or reviewing.
 
 ---
 
@@ -27,11 +27,11 @@
 
 ### Via Editor Title Button
 
-Click the **✨ Remove Comments** button in the editor title bar (top-right area) to access all commands without opening the context menu.
+Click the **✨ Remove Comments Pro** button in the editor title bar (top-right area) to access all commands without opening the context menu.
 
 ### Via Right-Click Menu
 
-Right-click anywhere in the editor → **Remove Comments ✨** → choose an action.
+Right-click anywhere in the editor → **Remove Comments Pro ✨** → choose an action.
 
 ### Via Command Palette
 
@@ -60,7 +60,7 @@ Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and type **Comments**.
 
 ## 👁️ Preview Mode
 
-By default, **Remove Comments** shows a diff preview before making any changes. Run any removal command and VS Code opens its native diff editor — left side is your original file, right side is the result after removal. Lines that would be deleted appear highlighted in red. A prompt lets you **Apply** or **Cancel**.
+By default, **Remove Comments Pro** shows a diff preview before making any changes. Run any removal command and VS Code opens its native diff editor — left side is your original file, right side is the result after removal. Lines that would be deleted appear highlighted in red. A prompt lets you **Apply** or **Cancel**.
 
 To skip the confirmation step and apply changes immediately, set:
 ```json
@@ -73,7 +73,7 @@ You can also run any **Preview:** command explicitly to open the diff without tr
 
 ## ⚙️ Settings
 
-Configure **Remove Comments** in VS Code settings (`Ctrl+,`), search for `remove-comments`:
+Configure **Remove Comments Pro** in VS Code settings (`Ctrl+,`), search for `remove-comments`:
 
 ### `remove-comments.previewBeforeApply`
 - **Type:** `boolean` · **Default:** `true`
@@ -140,7 +140,7 @@ Set to `false` to disable all retain rules globally:
 
 ## 🌐 Supported Languages
 
-**Remove Comments** supports **60+ languages** out of the box:
+**Remove Comments Pro** supports **60+ languages** out of the box:
 
 | Category | Languages |
 |---|---|
@@ -157,7 +157,7 @@ Set to `false` to disable all retain rules globally:
 
 ## 🔬 Advanced: Multi-Language Files
 
-**Remove Comments** automatically splits multi-language files into zones and applies the correct comment rules for each section:
+**Remove Comments Pro** automatically splits multi-language files into zones and applies the correct comment rules for each section:
 
 - **HTML / Svelte** → HTML body + `<style>` (CSS) + `<script>` (JavaScript)
 - **Vue** → `<template>`, `<script>`, `<style>` — each with their own language (respects `lang="ts"`, `lang="scss"`, etc.)
@@ -206,4 +206,4 @@ function greet(name) {
 
 ## 📝 License
 
-MIT © Remove Comments Contributors
+MIT © Remove Comments Pro Contributors
