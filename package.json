@@ -1,0 +1,239 @@
+{
+  "name": "remove-comments",
+  "displayName": "Remove Comments",
+  "description": "Remove all comments from your code with preview, retain rules, string capture and support for 60+ languages.",
+  "version": "1.0.0",
+  "publisher": "nathanzin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nathannogueira/remove-comments"
+  },
+  "engines": { "vscode": "^1.120.0" },
+  "categories": [ "Other" ],
+  "icon": "assets/logo.png",
+  "keywords": ["comment","comments","remove","strip","clean","extract","strings"],
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --out ./package/remove-comments.vsix"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@types/vscode": "^1.120.0",
+    "typescript": "^6.0.3"
+  },
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Remove Comments",
+      "properties": {
+        "remove-comments.enableC99": {
+          "type": "boolean",
+          "description": "Enable C99 mode: treat // as a line comment in C files.",
+          "scope": "resource",
+          "default": false
+        },
+        "remove-comments.trimBlankLines.above": {
+          "type": "integer",
+          "description": "Remove up to N blank lines above a removed comment.",
+          "scope": "resource",
+          "default": 0
+        },
+        "remove-comments.trimBlankLines.below": {
+          "type": "integer",
+          "description": "Remove up to N blank lines below a removed comment.",
+          "scope": "resource",
+          "default": 0
+        },
+        "remove-comments.stringCapture.outputPath": {
+          "type": "string",
+          "description": "Absolute path of the file where captured strings are written.",
+          "scope": "resource"
+        },
+        "remove-comments.stringCapture.lineGlue": {
+          "type": "string",
+          "description": "Replacement string for newlines inside multi-line captured strings.",
+          "default": "@@@@",
+          "scope": "resource"
+        },
+        "remove-comments.previewBeforeApply": {
+          "type": "boolean",
+          "description": "Show a diff preview and ask for confirmation before applying any comment removal. Set to false to apply immediately.",
+          "scope": "resource",
+          "default": true
+        },
+        "remove-comments.treatJsdocAsComment": {
+          "type": "boolean",
+          "description": "Treat /** */ JSDoc blocks as comments and remove them. When false (default), JSDoc blocks are preserved as documentation.",
+          "scope": "resource",
+          "default": false
+        },
+        "remove-comments.bypassRetainRules": {
+          "type": "boolean",
+          "description": "Ignore all retain rules and remove every comment, including ones protected by regex patterns. When false (default), retain rules are respected.",
+          "scope": "resource",
+          "default": false
+        },
+        "remove-comments.retain": {
+          "type": ["object","boolean"],
+          "description": "Named regex rules for comments that must not be removed. Set to false to disable all retain rules. Object key: languageId or \"all\".",
+          "scope": "resource",
+          "default": {},
+          "patternProperties": {
+            "^.+$": {
+              "type": ["object","boolean"],
+              "description": "For a languageId or \"all\": named regex rules for comments to retain. Set to false to disable retain rules for this language.",
+              "patternProperties": {
+                "^.+$": {
+                  "type": ["object","boolean"],
+                  "description": "Named regex rule for a comment to retain. Set to false to disable this rule.",
+                  "properties": {
+                    "regex": {
+                      "type": "string",
+                      "description": "Regular expression to search for in the comment text."
+                    },
+                    "flags": {
+                      "type": "string",
+                      "description": "(Optional) Regex flags, e.g. \"i\" for case-insensitive. Default: \"\"."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "menus": {
+      "editor/title": [
+        {
+          "submenu": "remove-comments.submenu",
+          "group": "navigation",
+          "when": "editorIsOpen"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "remove-comments.submenu",
+          "group": "z_commands@999"
+        }
+      ],
+      "remove-comments.submenu": [
+        {
+          "command": "remove-comments.removeAllComments",
+          "group": "1_strip@1"
+        },
+        {
+          "command": "remove-comments.removeSingleLineComments",
+          "group": "1_strip@2"
+        },
+        {
+          "command": "remove-comments.removeMultilineComments",
+          "group": "1_strip@3"
+        },
+        {
+          "command": "remove-comments.removeAllCommentsWithPrefix",
+          "group": "1_strip@4"
+        },
+        {
+          "command": "remove-comments.removeAllCommentsWorkspace",
+          "group": "1_strip@5"
+        },
+        {
+          "command": "remove-comments.previewAllComments",
+          "group": "2_preview@1"
+        },
+        {
+          "command": "remove-comments.previewSingleLineComments",
+          "group": "2_preview@2"
+        },
+        {
+          "command": "remove-comments.previewMultilineComments",
+          "group": "2_preview@3"
+        },
+        {
+          "command": "remove-comments.previewAllCommentsWorkspace",
+          "group": "2_preview@4"
+        },
+        {
+          "command": "remove-comments.extractStrings",
+          "group": "3_extra@1"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "remove-comments.submenu",
+        "label": "Remove Comments",
+        "icon": "$(sparkle-filled)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "remove-comments.extractStrings",
+        "title": "Extract Strings to a file",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.ignoreKeepCommentSetting",
+        "title": "Ignore any \"remove-comments.keep\" setting. For next removal only.",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.markJSDocStringAsComment",
+        "title": "Mark JSDOC String as comment. For next removal only.",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.removeAllComments",
+        "title": "Remove All Comments (Current File)",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.removeAllCommentsWithPrefix",
+        "title": "Remove All Comments with Prefix (Current File)",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.removeSingleLineComments",
+        "title": "Remove All Single Line Comments (Current File)",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.removeMultilineComments",
+        "title": "Remove All Multiline Comments (Current File)",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.previewAllComments",
+        "title": "Preview: Remove All Comments (Current File)",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.previewSingleLineComments",
+        "title": "Preview: Remove All Single Line Comments (Current File)",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.previewMultilineComments",
+        "title": "Preview: Remove All Multiline Comments (Current File)",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.removeAllCommentsWorkspace",
+        "title": "Remove All Comments (Workspace)",
+        "category": "Comments"
+      },
+      {
+        "command": "remove-comments.previewAllCommentsWorkspace",
+        "title": "Preview: Remove All Comments (Workspace)",
+        "category": "Comments"
+      }
+    ]
+  }
+}
